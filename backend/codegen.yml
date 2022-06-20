@@ -9,3 +9,7 @@ generates:
   ./graphql.schema.json:
     plugins:
       - "introspection"
+hooks:
+  afterAllFileWrite:
+    - prettier --write
+    - eslint --fix
