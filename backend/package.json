@@ -4,7 +4,9 @@
     "build": "tsc",
     "watch": "tsc -w",
     "start": "node dist/index.js",
-    "start:ts": "nodemon src/index.ts"
+    "start:ts": "nodemon src/index.ts",
+    "dev": "concurrently npm:watch npm:start:ts npm:gen:watch",
+    "gen:watch": "graphql-codegen --config codegen.yml --watch"
   },
   "dependencies": {
     "@graphql-tools/graphql-file-loader": "^7.3.12",
@@ -16,11 +18,13 @@
     "graphql": "^16.5.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.6.2",
     "@swc/core": "^1.2.181",
     "@swc/helpers": "^0.3.13",
     "@types/node": "^17.0.35",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
+    "concurrently": "^7.2.0",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
