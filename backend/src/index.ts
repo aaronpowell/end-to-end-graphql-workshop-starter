@@ -18,6 +18,6 @@ const server = new ApolloServer({
   dataSources: process.env.CosmosDB ? cosmosDataSource : inMemoryDataSource,
 });
 
-server.listen().then(() => {
-  console.log("Server is running");
+server.listen().then((info) => {
+  console.log(`Server is running at ${info.url}`);
 });
