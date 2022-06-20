@@ -3,7 +3,7 @@
     {
       "name": "launch:backend",
       "request": "launch",
-      "runtimeArgs": ["run-script", "dev", "--workspace", "backend"],
+      "runtimeArgs": ["run-script", "start:ts", "--workspace", "backend"],
       "runtimeExecutable": "npm",
       "skipFiles": ["<node_internals>/**"],
       "type": "node"
@@ -11,7 +11,7 @@
     {
       "name": "launch:frontend",
       "request": "launch",
-      "runtimeArgs": ["run-script", "dev", "--workspace", "frontend"],
+      "runtimeArgs": ["run-script", "start:ts", "--workspace", "frontend"],
       "runtimeExecutable": "npm",
       "skipFiles": ["<node_internals>/**"],
       "type": "node"
