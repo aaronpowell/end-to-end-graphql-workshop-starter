@@ -1,5 +1,7 @@
 import { CosmosDataSource } from "apollo-datasource-cosmosdb";
 import { ApolloContext } from "../../apolloContext";
+import { GameState } from "../../generated/graphql";
+import { arrayRandomiser, idGenerator } from "../../utils";
 import { IGameDataSource, GameModel, QuestionModel, ModelType } from "../types";
 
 export class GameDataSource
@@ -43,8 +45,23 @@ export class GameDataSource
     return game.resources[0];
   }
 
-  createGame(questions: QuestionModel[]): Promise<GameModel> {
-    throw new Error("Method not implemented.");
+  async createGame(questions: QuestionModel[]): Promise<GameModel> {
+    const newGame: GameModel = {
+      id: idGenerator(),
+      modelType: ModelType.Game,
+      state: GameState.WaitingForPlayers,
+      players: [],
+      answers: [],
+      questions: arrayRandomiser(questions),
+    };
+
+    const savedGame = await this.createOne(newGame);
+
+    if (savedGame.statusCode !== 201 || !savedGame.resource) {
+      throw "Failed to save game";
+    }
+
+    return savedGame.resource;
   }
   updateGame(game: GameModel): Promise<GameModel> {
     throw new Error("Method not implemented.");
