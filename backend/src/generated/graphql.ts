@@ -1,4 +1,6 @@
 import { GraphQLResolveInfo } from "graphql";
+import { QuestionModel, GameModel, PlayerModel } from "./../data/types";
+import { ApolloContext } from "./../apolloContext";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -10,6 +12,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
 };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
   [P in K]-?: NonNullable<T[P]>;
 };
@@ -185,7 +188,7 @@ export type DirectiveResolverFn<
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
-  Game: ResolverTypeWrapper<Game>;
+  Game: ResolverTypeWrapper<GameModel>;
   GameState: GameState;
   ID: ResolverTypeWrapper<Scalars["ID"]>;
   Node:
@@ -193,32 +196,42 @@ export type ResolversTypes = {
     | ResolversTypes["Player"]
     | ResolversTypes["PlayerAnswer"]
     | ResolversTypes["Question"];
-  Player: ResolverTypeWrapper<Player>;
-  PlayerAnswer: ResolverTypeWrapper<PlayerAnswer>;
+  Player: ResolverTypeWrapper<PlayerModel>;
+  PlayerAnswer: ResolverTypeWrapper<
+    Omit<PlayerAnswer, "game" | "player" | "question"> & {
+      game: ResolversTypes["Game"];
+      player: ResolversTypes["Player"];
+      question?: Maybe<ResolversTypes["Question"]>;
+    }
+  >;
   Query: ResolverTypeWrapper<{}>;
-  Question: ResolverTypeWrapper<Question>;
+  Question: ResolverTypeWrapper<QuestionModel>;
   String: ResolverTypeWrapper<Scalars["String"]>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars["Boolean"];
-  Game: Game;
+  Game: GameModel;
   ID: Scalars["ID"];
   Node:
     | ResolversParentTypes["Game"]
     | ResolversParentTypes["Player"]
     | ResolversParentTypes["PlayerAnswer"]
     | ResolversParentTypes["Question"];
-  Player: Player;
-  PlayerAnswer: PlayerAnswer;
+  Player: PlayerModel;
+  PlayerAnswer: Omit<PlayerAnswer, "game" | "player" | "question"> & {
+    game: ResolversParentTypes["Game"];
+    player: ResolversParentTypes["Player"];
+    question?: Maybe<ResolversParentTypes["Question"]>;
+  };
   Query: {};
-  Question: Question;
+  Question: QuestionModel;
   String: Scalars["String"];
 };
 
 export type GameResolvers<
-  ContextType = any,
+  ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["Game"] = ResolversParentTypes["Game"]
 > = {
   answers?: Resolver<
@@ -238,7 +251,7 @@ export type GameResolvers<
 };
 
 export type NodeResolvers<
-  ContextType = any,
+  ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["Node"] = ResolversParentTypes["Node"]
 > = {
   __resolveType: TypeResolveFn<
@@ -250,7 +263,7 @@ export type NodeResolvers<
 };
 
 export type PlayerResolvers<
-  ContextType = any,
+  ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["Player"] = ResolversParentTypes["Player"]
 > = {
   answers?: Resolver<
@@ -265,7 +278,7 @@ export type PlayerResolvers<
 };
 
 export type PlayerAnswerResolvers<
-  ContextType = any,
+  ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["PlayerAnswer"] = ResolversParentTypes["PlayerAnswer"]
 > = {
   answer?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -281,7 +294,7 @@ export type PlayerAnswerResolvers<
 };
 
 export type QueryResolvers<
-  ContextType = any,
+  ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
 > = {
   game?: Resolver<
@@ -294,7 +307,7 @@ export type QueryResolvers<
 };
 
 export type QuestionResolvers<
-  ContextType = any,
+  ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["Question"] = ResolversParentTypes["Question"]
 > = {
   answers?: Resolver<Array<ResolversTypes["String"]>, ParentType, ContextType>;
@@ -305,7 +318,7 @@ export type QuestionResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Resolvers<ContextType = any> = {
+export type Resolvers<ContextType = ApolloContext> = {
   Game?: GameResolvers<ContextType>;
   Node?: NodeResolvers<ContextType>;
   Player?: PlayerResolvers<ContextType>;

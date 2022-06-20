@@ -1,5 +1,5 @@
 import { DataSource } from "apollo-datasource";
-import { readFileSync } from "fs";
+import { arrayRandomiser } from "../../utils";
 import { IQuestionDataSource, QuestionModel } from "../types";
 
 export class QuestionDataSource
@@ -10,9 +10,7 @@ export class QuestionDataSource
 
   constructor() {
     super();
-    this.#questions = JSON.parse(
-      readFileSync("../../../../trivia.json", "utf-8")
-    );
+    this.#questions = require("../../../trivia.json");
   }
 
   getQuestion(id: string): Promise<QuestionModel | undefined> {
@@ -20,6 +18,6 @@ export class QuestionDataSource
   }
 
   async getQuestions() {
-    return Promise.resolve(this.#questions.slice(0, 10));
+    return Promise.resolve(arrayRandomiser(this.#questions.slice(0, 10)));
   }
 }

@@ -3,6 +3,12 @@ schema: "./schema.graphql"
 documents: null
 generates:
   src/generated/graphql.ts:
+    config:
+      contextType: "./../apolloContext#ApolloContext"
+      mappers:
+        Question: ./../data/types#QuestionModel
+        Game: ./../data/types#GameModel
+        Player: ./../data/types#PlayerModel
     plugins:
       - "typescript"
       - "typescript-resolvers"
@@ -12,4 +18,3 @@ generates:
 hooks:
   afterAllFileWrite:
     - prettier --write
-    - eslint --fix

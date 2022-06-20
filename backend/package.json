@@ -10,6 +10,7 @@
     "gen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@azure/cosmos": "^3.16.1",
     "@graphql-tools/graphql-file-loader": "^7.3.12",
     "@graphql-tools/load": "^7.5.11",
     "@graphql-tools/load-files": "^6.5.3",
