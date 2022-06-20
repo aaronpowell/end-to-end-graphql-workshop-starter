@@ -2,7 +2,12 @@ import { DataSource } from "apollo-datasource";
 import { IPlayerDataSource, PlayerModel } from "../types";
 
 export class PlayerDataSource extends DataSource implements IPlayerDataSource {
-  #players: PlayerModel[] = [];
+  #players: PlayerModel[];
+
+  constructor(players: PlayerModel[]) {
+    super();
+    this.#players = players;
+  }
 
   getPlayer(id: string): Promise<PlayerModel | undefined> {
     return Promise.resolve(this.#players.find((p) => p.id === id));

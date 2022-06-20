@@ -40,6 +40,22 @@ export enum GameState {
   WaitingForPlayers = "WaitingForPlayers",
 }
 
+export type Mutation = {
+  __typename?: "Mutation";
+  addPlayerToGame?: Maybe<Game>;
+  createGame: Game;
+  submitAnswer?: Maybe<Game>;
+};
+
+export type MutationAddPlayerToGameArgs = {
+  gameId: Scalars["ID"];
+  playerName: Scalars["String"];
+};
+
+export type MutationSubmitAnswerArgs = {
+  answer: SubmittedAnswer;
+};
+
 export type Node = {
   id: Scalars["ID"];
 };
@@ -78,6 +94,13 @@ export type Question = Node & {
   games: Array<Game>;
   id: Scalars["ID"];
   question: Scalars["String"];
+};
+
+export type SubmittedAnswer = {
+  answer: Scalars["String"];
+  gameId: Scalars["ID"];
+  playerId: Scalars["ID"];
+  questionId: Scalars["ID"];
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -191,6 +214,7 @@ export type ResolversTypes = {
   Game: ResolverTypeWrapper<GameModel>;
   GameState: GameState;
   ID: ResolverTypeWrapper<Scalars["ID"]>;
+  Mutation: ResolverTypeWrapper<{}>;
   Node:
     | ResolversTypes["Game"]
     | ResolversTypes["Player"]
@@ -207,6 +231,7 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   Question: ResolverTypeWrapper<QuestionModel>;
   String: ResolverTypeWrapper<Scalars["String"]>;
+  SubmittedAnswer: SubmittedAnswer;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -214,6 +239,7 @@ export type ResolversParentTypes = {
   Boolean: Scalars["Boolean"];
   Game: GameModel;
   ID: Scalars["ID"];
+  Mutation: {};
   Node:
     | ResolversParentTypes["Game"]
     | ResolversParentTypes["Player"]
@@ -228,6 +254,7 @@ export type ResolversParentTypes = {
   Query: {};
   Question: QuestionModel;
   String: Scalars["String"];
+  SubmittedAnswer: SubmittedAnswer;
 };
 
 export type GameResolvers<
@@ -248,6 +275,25 @@ export type GameResolvers<
   >;
   state?: Resolver<ResolversTypes["GameState"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MutationResolvers<
+  ContextType = ApolloContext,
+  ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"]
+> = {
+  addPlayerToGame?: Resolver<
+    Maybe<ResolversTypes["Game"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationAddPlayerToGameArgs, "gameId" | "playerName">
+  >;
+  createGame?: Resolver<ResolversTypes["Game"], ParentType, ContextType>;
+  submitAnswer?: Resolver<
+    Maybe<ResolversTypes["Game"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationSubmitAnswerArgs, "answer">
+  >;
 };
 
 export type NodeResolvers<
@@ -320,6 +366,7 @@ export type QuestionResolvers<
 
 export type Resolvers<ContextType = ApolloContext> = {
   Game?: GameResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   Node?: NodeResolvers<ContextType>;
   Player?: PlayerResolvers<ContextType>;
   PlayerAnswer?: PlayerAnswerResolvers<ContextType>;

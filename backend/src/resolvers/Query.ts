@@ -1,5 +1,5 @@
 import { UserInputError } from "apollo-server";
-import { QueryResolvers } from "./generated/graphql";
+import { QueryResolvers } from "../generated/graphql";
 
 export const Query: QueryResolvers = {
   async game(_, { id }, context) {

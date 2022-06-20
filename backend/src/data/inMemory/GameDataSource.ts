@@ -1,7 +1,13 @@
 import { DataSource } from "apollo-datasource";
-import type { GameModel, IGameDataSource, QuestionModel } from "../types";
+import { GameState } from "../../generated/graphql";
+import { idGenerator } from "../../utils";
+import { GameModel, IGameDataSource, ModelType, QuestionModel } from "../types";
 
 export class GameDataSource extends DataSource implements IGameDataSource {
+  constructor(games: GameModel[]) {
+    super();
+    this.#games = games;
+  }
   getGames(): Promise<GameModel[]> {
     return Promise.resolve(this.#games);
   }
@@ -9,7 +15,17 @@ export class GameDataSource extends DataSource implements IGameDataSource {
     return Promise.resolve(this.#games.find((g) => g.id === id));
   }
   createGame(questions: QuestionModel[]): Promise<GameModel> {
-    throw new Error("Method not implemented.");
+    const game = {
+      id: idGenerator(),
+      questions,
+      answers: [],
+      players: [],
+      state: GameState.WaitingForPlayers,
+      modelType: ModelType.Game,
+    };
+    this.#games.push(game);
+
+    return Promise.resolve(game);
   }
   updateGame(game: GameModel): Promise<GameModel> {
     throw new Error("Method not implemented.");
@@ -19,5 +35,5 @@ export class GameDataSource extends DataSource implements IGameDataSource {
       this.#games.filter((g) => g.players.some((u) => u.id === userId))
     );
   }
-  #games: GameModel[] = [];
+  #games: GameModel[];
 }

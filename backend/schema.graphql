@@ -43,3 +43,16 @@ type Query {
   game(id: ID!): Game
   games: [Game!]!
 }
+
+input SubmittedAnswer {
+  gameId: ID!
+  playerId: ID!
+  answer: String!
+  questionId: ID!
+}
+
+type Mutation {
+  createGame: Game!
+  addPlayerToGame(gameId: ID!, playerName: String!): Game
+  submitAnswer(answer: SubmittedAnswer!): Game
+}
