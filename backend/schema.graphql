@@ -1,0 +1,45 @@
+interface Node {
+  id: ID!
+}
+
+type Player implements Node {
+  id: ID!
+  name: String!
+  games: [Game!]!
+  answers: [PlayerAnswer!]!
+}
+
+type Question implements Node {
+  id: ID!
+  question: String!
+  answers: [String!]!
+  correctAnswer: String!
+  games: [Game!]!
+}
+
+enum GameState {
+  WaitingForPlayers
+  Started
+  Completed
+}
+
+type PlayerAnswer implements Node {
+  id: ID!
+  answer: String!
+  player: Player!
+  game: Game!
+  question: Question
+}
+
+type Game implements Node {
+  id: ID!
+  state: GameState!
+  questions: [Question!]!
+  players: [Player!]!
+  answers: [PlayerAnswer!]!
+}
+
+type Query {
+  game(id: ID!): Game
+  games: [Game!]!
+}
