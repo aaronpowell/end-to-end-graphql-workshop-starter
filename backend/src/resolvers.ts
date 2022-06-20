@@ -1,3 +1,17 @@
 export const resolvers = {
-  Query: {},
+  Query: {
+    game(_, { id }) {
+      return {
+        id,
+        players: [],
+        state: "WaitingForPlayers",
+        question: [],
+        answers: [],
+      };
+    },
+
+    games() {
+      return []
+    }
+  },
 };
