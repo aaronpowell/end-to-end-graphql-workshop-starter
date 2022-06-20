@@ -1,17 +1,6 @@
-export const resolvers = {
-  Query: {
-    game(_, { id }) {
-      return {
-        id,
-        players: [],
-        state: "WaitingForPlayers",
-        question: [],
-        answers: [],
-      };
-    },
+import type { Resolvers } from "./generated/graphql";
+import { Query } from "./Query";
 
-    games() {
-      return []
-    }
-  },
+export const resolvers: Resolvers = {
+  Query,
 };
