@@ -63,7 +63,15 @@ export class GameDataSource
 
     return savedGame.resource;
   }
-  updateGame(game: GameModel): Promise<GameModel> {
-    throw new Error("Method not implemented.");
+  async updateGame(game: GameModel): Promise<GameModel> {
+    const response = await this.container
+      .item(game.id, game.modelType)
+      .replace(game);
+
+    if (response.statusCode !== 200 || !response.resource) {
+      throw "Failed to save game";
+    }
+
+    return response.resource;
   }
 }

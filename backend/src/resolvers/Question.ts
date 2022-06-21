@@ -7,4 +7,7 @@ export const Question: QuestionResolvers = {
       question.incorrect_answers.concat(question.correct_answer)
     );
   },
+  correctAnswer(question) {
+    return question.correct_answer;
+  }
 };

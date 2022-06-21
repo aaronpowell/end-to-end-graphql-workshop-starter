@@ -18,7 +18,7 @@ export const cosmosDataSource: () => DataSources<ApolloContext> = () => {
   return {
     questions: new CosmosQuestionDataSource(container),
     games: new CosmosGameDataSource(container),
-    player: new CosmosPlayerDataSource(container),
+    players: new CosmosPlayerDataSource(container),
   };
 };
 

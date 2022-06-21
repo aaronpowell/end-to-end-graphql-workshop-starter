@@ -28,7 +28,7 @@ export class GameDataSource extends DataSource implements IGameDataSource {
     return Promise.resolve(game);
   }
   updateGame(game: GameModel): Promise<GameModel> {
-    throw new Error("Method not implemented.");
+    return Promise.resolve(game);
   }
   getUserGames(userId: string): Promise<GameModel[]> {
     return Promise.resolve(

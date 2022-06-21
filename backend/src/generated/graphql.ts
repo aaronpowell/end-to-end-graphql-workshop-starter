@@ -44,12 +44,22 @@ export type Mutation = {
   __typename?: "Mutation";
   addPlayerToGame?: Maybe<Game>;
   createGame: Game;
+  endGame?: Maybe<Game>;
+  startGame?: Maybe<Game>;
   submitAnswer?: Maybe<Game>;
 };
 
 export type MutationAddPlayerToGameArgs = {
   gameId: Scalars["ID"];
   playerName: Scalars["String"];
+};
+
+export type MutationEndGameArgs = {
+  gameId: Scalars["ID"];
+};
+
+export type MutationStartGameArgs = {
+  gameId: Scalars["ID"];
 };
 
 export type MutationSubmitAnswerArgs = {
@@ -288,6 +298,18 @@ export type MutationResolvers<
     RequireFields<MutationAddPlayerToGameArgs, "gameId" | "playerName">
   >;
   createGame?: Resolver<ResolversTypes["Game"], ParentType, ContextType>;
+  endGame?: Resolver<
+    Maybe<ResolversTypes["Game"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationEndGameArgs, "gameId">
+  >;
+  startGame?: Resolver<
+    Maybe<ResolversTypes["Game"]>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationStartGameArgs, "gameId">
+  >;
   submitAnswer?: Resolver<
     Maybe<ResolversTypes["Game"]>,
     ParentType,

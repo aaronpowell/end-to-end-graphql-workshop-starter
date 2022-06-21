@@ -1,5 +1,5 @@
 import { DataSource } from "apollo-datasource";
-import { IPlayerDataSource, PlayerModel } from "../types";
+import { IPlayerDataSource, ModelType, PlayerModel } from "../types";
 
 export class PlayerDataSource extends DataSource implements IPlayerDataSource {
   #players: PlayerModel[];
@@ -19,6 +19,17 @@ export class PlayerDataSource extends DataSource implements IPlayerDataSource {
     userDetails: string,
     userRoles: string[]
   ): Promise<PlayerModel> {
-    throw new Error("Method not implemented.");
+    const player: PlayerModel = {
+      id,
+      name,
+      identityProvider,
+      userDetails,
+      userRoles,
+      modelType: ModelType.Player
+    };
+
+    this.#players.push(player);
+
+    return Promise.resolve(player);
   }
 }
