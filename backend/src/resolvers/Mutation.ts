@@ -51,7 +51,9 @@ export const Mutation: MutationResolvers = {
 
     game.players.push(player);
 
-    return await dataSources.games.updateGame(game);
+    await dataSources.games.updateGame(game);
+
+    return player;
   },
 
   async submitAnswer(_, { answer }, { dataSources }) {

@@ -1,0 +1,5 @@
+mutation StartGame($gameId: ID!) {
+  startGame(gameId: $gameId) {
+    id
+  }
+}

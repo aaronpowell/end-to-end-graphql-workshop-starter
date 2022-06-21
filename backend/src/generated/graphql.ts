@@ -42,7 +42,7 @@ export enum GameState {
 
 export type Mutation = {
   __typename?: "Mutation";
-  addPlayerToGame?: Maybe<Game>;
+  addPlayerToGame?: Maybe<Player>;
   createGame: Game;
   endGame?: Maybe<Game>;
   startGame?: Maybe<Game>;
@@ -308,7 +308,7 @@ export type MutationResolvers<
   ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"]
 > = {
   addPlayerToGame?: Resolver<
-    Maybe<ResolversTypes["Game"]>,
+    Maybe<ResolversTypes["Player"]>,
     ParentType,
     ContextType,
     RequireFields<MutationAddPlayerToGameArgs, "gameId" | "playerName">

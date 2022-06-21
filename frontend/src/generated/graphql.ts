@@ -30,7 +30,7 @@ export enum GameState {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addPlayerToGame?: Maybe<Game>;
+  addPlayerToGame?: Maybe<Player>;
   createGame: Game;
   endGame?: Maybe<Game>;
   startGame?: Maybe<Game>;
@@ -121,15 +121,44 @@ export type SubmittedAnswer = {
   questionId: Scalars['ID'];
 };
 
+export type AddPlayerToGameMutationVariables = Exact<{
+  gameId: Scalars['ID'];
+  playerName: Scalars['String'];
+}>;
+
+
+export type AddPlayerToGameMutation = { __typename?: 'Mutation', addPlayerToGame?: { __typename?: 'Player', id: string } | null };
+
 export type CreateGameMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CreateGameMutation = { __typename?: 'Mutation', createGame: { __typename?: 'Game', id: string } };
 
+export type StartGameMutationVariables = Exact<{
+  gameId: Scalars['ID'];
+}>;
 
+
+export type StartGameMutation = { __typename?: 'Mutation', startGame?: { __typename?: 'Game', id: string } | null };
+
+
+export const AddPlayerToGame = gql`
+    mutation AddPlayerToGame($gameId: ID!, $playerName: String!) {
+  addPlayerToGame(gameId: $gameId, playerName: $playerName) {
+    id
+  }
+}
+    `;
 export const CreateGame = gql`
     mutation CreateGame {
   createGame {
+    id
+  }
+}
+    `;
+export const StartGame = gql`
+    mutation StartGame($gameId: ID!) {
+  startGame(gameId: $gameId) {
     id
   }
 }

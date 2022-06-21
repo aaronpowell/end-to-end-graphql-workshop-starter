@@ -61,7 +61,7 @@ input SubmittedAnswer {
 
 type Mutation {
   createGame: Game!
-  addPlayerToGame(gameId: ID!, playerName: String!): Game
+  addPlayerToGame(gameId: ID!, playerName: String!): Player
   submitAnswer(answer: SubmittedAnswer!): Game
   startGame(gameId: ID!): Game
   endGame(gameId: ID!): Game

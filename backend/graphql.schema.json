@@ -222,7 +222,7 @@
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "Game",
+              "name": "Player",
               "ofType": null
             },
             "isDeprecated": false,
