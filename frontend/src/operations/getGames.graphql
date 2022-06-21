@@ -1,0 +1,9 @@
+query GetGames {
+  games {
+    id
+    state
+    players {
+        name
+    }
+  }
+}
