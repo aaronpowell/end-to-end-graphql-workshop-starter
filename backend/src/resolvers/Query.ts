@@ -15,4 +15,25 @@ export const Query: QueryResolvers = {
   games(_, __, context) {
     return context.dataSources.games.getGames();
   },
+
+  async playerAnswers(_, { gameId, playerId }, { dataSources }) {
+    const game = await dataSources.games.getGame(gameId);
+
+    if (!game) {
+      throw new UserInputError(`The ID ${gameId} does not match a known game`);
+    }
+
+    if (!game.players.some((p) => p.id === playerId)) {
+      throw new UserInputError(`The player does not exist in this game`);
+    }
+
+    return game.answers
+      .filter((a) => a.player.id === playerId)
+      .map((a) => ({
+        answer: a.answer,
+        correct: a.answer === a.question.correct_answer,
+        correctAnswer: a.question.correct_answer,
+        question: a.question.question,
+      }));
+  },
 };

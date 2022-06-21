@@ -39,9 +39,17 @@ type Game implements Node {
   answers: [PlayerAnswer!]!
 }
 
+type PlayerAnswerResult {
+  answer: String!
+  question: String!
+  correct: Boolean!
+  correctAnswer: String!
+}
+
 type Query {
   game(id: ID!): Game
   games: [Game!]!
+  playerAnswers(gameId: ID!, playerId: ID!): [PlayerAnswerResult!]!
 }
 
 input SubmittedAnswer {

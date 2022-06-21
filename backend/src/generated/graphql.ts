@@ -87,14 +87,28 @@ export type PlayerAnswer = Node & {
   question?: Maybe<Question>;
 };
 
+export type PlayerAnswerResult = {
+  __typename?: "PlayerAnswerResult";
+  answer: Scalars["String"];
+  correct: Scalars["Boolean"];
+  correctAnswer: Scalars["String"];
+  question: Scalars["String"];
+};
+
 export type Query = {
   __typename?: "Query";
   game?: Maybe<Game>;
   games: Array<Game>;
+  playerAnswers: Array<PlayerAnswerResult>;
 };
 
 export type QueryGameArgs = {
   id: Scalars["ID"];
+};
+
+export type QueryPlayerAnswersArgs = {
+  gameId: Scalars["ID"];
+  playerId: Scalars["ID"];
 };
 
 export type Question = Node & {
@@ -238,6 +252,7 @@ export type ResolversTypes = {
       question?: Maybe<ResolversTypes["Question"]>;
     }
   >;
+  PlayerAnswerResult: ResolverTypeWrapper<PlayerAnswerResult>;
   Query: ResolverTypeWrapper<{}>;
   Question: ResolverTypeWrapper<QuestionModel>;
   String: ResolverTypeWrapper<Scalars["String"]>;
@@ -261,6 +276,7 @@ export type ResolversParentTypes = {
     player: ResolversParentTypes["Player"];
     question?: Maybe<ResolversParentTypes["Question"]>;
   };
+  PlayerAnswerResult: PlayerAnswerResult;
   Query: {};
   Question: QuestionModel;
   String: Scalars["String"];
@@ -361,6 +377,17 @@ export type PlayerAnswerResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type PlayerAnswerResultResolvers<
+  ContextType = ApolloContext,
+  ParentType extends ResolversParentTypes["PlayerAnswerResult"] = ResolversParentTypes["PlayerAnswerResult"]
+> = {
+  answer?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  correct?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  correctAnswer?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  question?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
@@ -372,6 +399,12 @@ export type QueryResolvers<
     RequireFields<QueryGameArgs, "id">
   >;
   games?: Resolver<Array<ResolversTypes["Game"]>, ParentType, ContextType>;
+  playerAnswers?: Resolver<
+    Array<ResolversTypes["PlayerAnswerResult"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPlayerAnswersArgs, "gameId" | "playerId">
+  >;
 };
 
 export type QuestionResolvers<
@@ -392,6 +425,7 @@ export type Resolvers<ContextType = ApolloContext> = {
   Node?: NodeResolvers<ContextType>;
   Player?: PlayerResolvers<ContextType>;
   PlayerAnswer?: PlayerAnswerResolvers<ContextType>;
+  PlayerAnswerResult?: PlayerAnswerResultResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Question?: QuestionResolvers<ContextType>;
 };
