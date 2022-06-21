@@ -121,20 +121,16 @@ export type SubmittedAnswer = {
   questionId: Scalars['ID'];
 };
 
-export type GetGamesQueryVariables = Exact<{ [key: string]: never; }>;
+export type CreateGameMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetGamesQuery = { __typename?: 'Query', games: Array<{ __typename?: 'Game', id: string, state: GameState, players: Array<{ __typename?: 'Player', name: string }> }> };
+export type CreateGameMutation = { __typename?: 'Mutation', createGame: { __typename?: 'Game', id: string } };
 
 
-export const GetGames = gql`
-    query GetGames {
-  games {
+export const CreateGame = gql`
+    mutation CreateGame {
+  createGame {
     id
-    state
-    players {
-      name
-    }
   }
 }
     `;

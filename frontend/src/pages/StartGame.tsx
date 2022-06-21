@@ -1,24 +1,26 @@
-import React from "react";
-import { useQuery } from "@apollo/client";
-import { GetGames, GetGamesQuery } from "../generated/graphql";
+import React, { useEffect } from "react";
+import { useMutation } from "@apollo/client";
+import { CreateGame, CreateGameMutation } from "../generated/graphql";
+import { useNavigate } from "react-router-dom";
 
 export const StartGame = () => {
-  const { loading, data } = useQuery<GetGamesQuery>(GetGames);
+  const [createGame, { loading, data }] =
+    useMutation<CreateGameMutation>(CreateGame);
 
-  if (loading || !data) {
-    return <h1>Loading game data...</h1>;
-  }
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (data) {
+      navigate(`/game/${data.createGame.id}/join`);
+    }
+  }, [data]);
 
   return (
     <div>
-      <h1>Games in our system</h1>
-      <ul>
-        {data.games.map((game) => (
-          <li key={game.id}>
-            {game.id} {game.state} {JSON.stringify(game.players)}
-          </li>
-        ))}
-      </ul>
+      <h1>Would you like to play a game?</h1>
+      <button onClick={() => createGame()} disabled={loading}>
+        Yes I would
+      </button>
     </div>
   );
 };
