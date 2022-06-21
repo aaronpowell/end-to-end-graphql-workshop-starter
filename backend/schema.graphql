@@ -44,6 +44,7 @@ type PlayerAnswerResult {
   question: String!
   correct: Boolean!
   correctAnswer: String!
+  answers: [String!]!
 }
 
 type Query {

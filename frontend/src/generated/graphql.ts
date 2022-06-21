@@ -82,6 +82,7 @@ export type PlayerAnswer = Node & {
 export type PlayerAnswerResult = {
   __typename?: 'PlayerAnswerResult';
   answer: Scalars['String'];
+  answers: Array<Scalars['String']>;
   correct: Scalars['Boolean'];
   correctAnswer: Scalars['String'];
   question: Scalars['String'];
@@ -134,12 +135,41 @@ export type CreateGameMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type CreateGameMutation = { __typename?: 'Mutation', createGame: { __typename?: 'Game', id: string } };
 
+export type EndGameMutationVariables = Exact<{
+  gameId: Scalars['ID'];
+}>;
+
+
+export type EndGameMutation = { __typename?: 'Mutation', endGame?: { __typename?: 'Game', id: string } | null };
+
+export type GetGameQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetGameQuery = { __typename?: 'Query', game?: { __typename?: 'Game', questions: Array<{ __typename?: 'Question', id: string, question: string, answers: Array<string> }> } | null };
+
+export type PlayerResultsQueryVariables = Exact<{
+  gameId: Scalars['ID'];
+  playerId: Scalars['ID'];
+}>;
+
+
+export type PlayerResultsQuery = { __typename?: 'Query', playerAnswers: Array<{ __typename?: 'PlayerAnswerResult', correct: boolean, question: string, answers: Array<string>, correctAnswer: string, answer: string }> };
+
 export type StartGameMutationVariables = Exact<{
   gameId: Scalars['ID'];
 }>;
 
 
 export type StartGameMutation = { __typename?: 'Mutation', startGame?: { __typename?: 'Game', id: string } | null };
+
+export type SubmitAnswerMutationVariables = Exact<{
+  answer: SubmittedAnswer;
+}>;
+
+
+export type SubmitAnswerMutation = { __typename?: 'Mutation', submitAnswer?: { __typename?: 'Game', id: string } | null };
 
 
 export const AddPlayerToGame = gql`
@@ -156,9 +186,45 @@ export const CreateGame = gql`
   }
 }
     `;
+export const EndGame = gql`
+    mutation EndGame($gameId: ID!) {
+  endGame(gameId: $gameId) {
+    id
+  }
+}
+    `;
+export const GetGame = gql`
+    query GetGame($id: ID!) {
+  game(id: $id) {
+    questions {
+      id
+      question
+      answers
+    }
+  }
+}
+    `;
+export const PlayerResults = gql`
+    query PlayerResults($gameId: ID!, $playerId: ID!) {
+  playerAnswers(gameId: $gameId, playerId: $playerId) {
+    correct
+    question
+    answers
+    correctAnswer
+    answer
+  }
+}
+    `;
 export const StartGame = gql`
     mutation StartGame($gameId: ID!) {
   startGame(gameId: $gameId) {
+    id
+  }
+}
+    `;
+export const SubmitAnswer = gql`
+    mutation SubmitAnswer($answer: SubmittedAnswer!) {
+  submitAnswer(answer: $answer) {
     id
   }
 }

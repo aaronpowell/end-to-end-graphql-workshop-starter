@@ -1,0 +1,5 @@
+mutation EndGame($gameId: ID!) {
+  endGame(gameId: $gameId) {
+    id
+  }
+}

@@ -1,5 +1,6 @@
 import { UserInputError } from "apollo-server";
 import { QueryResolvers } from "../generated/graphql";
+import { arrayRandomiser } from "../utils";
 
 export const Query: QueryResolvers = {
   async game(_, { id }, context) {
@@ -34,6 +35,9 @@ export const Query: QueryResolvers = {
         correct: a.answer === a.question.correct_answer,
         correctAnswer: a.question.correct_answer,
         question: a.question.question,
+        answers: arrayRandomiser(
+          a.question.incorrect_answers.concat(a.question.correct_answer)
+        ),
       }));
   },
 };

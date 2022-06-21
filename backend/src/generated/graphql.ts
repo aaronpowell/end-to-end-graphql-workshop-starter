@@ -90,6 +90,7 @@ export type PlayerAnswer = Node & {
 export type PlayerAnswerResult = {
   __typename?: "PlayerAnswerResult";
   answer: Scalars["String"];
+  answers: Array<Scalars["String"]>;
   correct: Scalars["Boolean"];
   correctAnswer: Scalars["String"];
   question: Scalars["String"];
@@ -382,6 +383,7 @@ export type PlayerAnswerResultResolvers<
   ParentType extends ResolversParentTypes["PlayerAnswerResult"] = ResolversParentTypes["PlayerAnswerResult"]
 > = {
   answer?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  answers?: Resolver<Array<ResolversTypes["String"]>, ParentType, ContextType>;
   correct?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   correctAnswer?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   question?: Resolver<ResolversTypes["String"], ParentType, ContextType>;

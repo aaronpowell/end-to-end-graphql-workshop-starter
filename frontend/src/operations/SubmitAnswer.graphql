@@ -1,0 +1,5 @@
+mutation SubmitAnswer($answer: SubmittedAnswer!) {
+  submitAnswer(answer: $answer) {
+    id
+  }
+}

@@ -1,0 +1,9 @@
+query GetGame($id: ID!) {
+  game(id: $id) {
+    questions {
+      id
+      question
+      answers
+    }
+  }
+}

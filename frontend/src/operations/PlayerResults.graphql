@@ -1,0 +1,9 @@
+query PlayerResults($gameId: ID!, $playerId: ID!) {
+  playerAnswers(gameId: $gameId, playerId: $playerId) {
+    correct
+    question
+    answers
+    correctAnswer
+    answer
+  }
+}

@@ -3,6 +3,8 @@ import { StartGame } from "./pages/StartGame";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { JoinGame } from "./pages/JoinGame";
+import PlayGame from "./pages/PlayGame";
+import CompleteGame from "./pages/CompleteGame";
 
 const client = new ApolloClient({
   uri: "http://localhost:4001/graphql",
@@ -17,6 +19,8 @@ function App() {
           <Routes>
             <Route path="/" element={<StartGame />} />
             <Route path="/game/:id/join" element={<JoinGame />} />
+            <Route path="/game/:id/play/:player" element={<PlayGame />} />
+            <Route path="/game/:id/finish/:player" element={<CompleteGame />} />
           </Routes>
         </div>
       </Router>
